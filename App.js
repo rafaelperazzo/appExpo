@@ -4,6 +4,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Autenticacao from './telas/Autenticacao';
 import Cadastrar from './telas/Cadastrar';
 import Principal from './telas/Principal';
+import Atualizar from './telas/Atualizar';
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +20,9 @@ export default function App() {
         />
         <Stack.Screen name="Principal" component={Principal}
             options={{title: 'Principal'}}
+        />
+        <Stack.Screen name="Atualizar" component={Atualizar}
+            options={{title: 'Atualizar'}}
         />
       </Stack.Navigator>
     </NavigationContainer>
