@@ -1,12 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
+import { NavigationContainer } from '@react-navigation/native';
 import { StyleSheet, Text, View } from 'react-native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import Autenticacao from './telas/Autenticacao';
+import Cadastrar from './telas/Cadastrar';
+import Principal from './telas/Principal';
+
+const Stack = createNativeStackNavigator();
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="Autenticacao">
+        <Stack.Screen name="Autenticacao" component={Autenticacao} 
+            options={{title: 'Principal'}}
+        />
+        <Stack.Screen name="Cadastrar" component={Cadastrar} 
+            options={{title: 'Cadastrar'}}
+        />
+        <Stack.Screen name="Principal" component={Principal}
+            options={{title: 'Principal'}}
+        />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
