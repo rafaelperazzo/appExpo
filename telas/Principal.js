@@ -1,5 +1,5 @@
 import {useState,useEffect} from 'react';
-import {View,ScrollView} from 'react-native';
+import {ScrollView} from 'react-native';
 import {Button, DataTable, Text} from 'react-native-paper';
 import supabase from '../db/database';
 
@@ -28,6 +28,18 @@ export default function Principal({route,navigation}) {
                     navigation.navigate('Cadastrar');
                 }}
             >Cadastrar</Button>
+            <Button mode="contained"
+                onPress={async()=>{
+                    let { data: ocorrencias, error } = await supabase
+                    .from('ocorrencias')
+                    .select('*').order('id');
+                    if (error) {
+                        console.log(error);
+                    }
+                    else
+                        setDados(ocorrencias);
+                }}
+            >Atualizar</Button>
             <DataTable>
                 <DataTable.Header>
                    <DataTable.Title>ID</DataTable.Title>
