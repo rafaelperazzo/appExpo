@@ -7,6 +7,7 @@ export default function Autenticacao({route,navigation}) {
     const [email, setEmail] = useState('');
     const [senha, setSenha] = useState('');
     const [resultado, setResultado] = useState('');
+    const [atualizar, setAtualizar] = useState(false);
     return(
         <View>
             <Text variant="headlineSmall">Autenticação</Text>
@@ -24,7 +25,7 @@ export default function Autenticacao({route,navigation}) {
             <Button mode="contained"
                 onPress={
                     async()=>{
-                        
+                        setAtualizar(true);
                         let {data,error} = await supabase.auth.signInWithPassword({
                             email: email,
                             password: senha
@@ -37,8 +38,10 @@ export default function Autenticacao({route,navigation}) {
                         else {
                             navigation.navigate('Principal');
                         }
+                        setAtualizar(false);
                     }
                 }
+                loading={atualizar}
             >
             Entrar</Button>
             <Text>{resultado}</Text>

@@ -6,9 +6,11 @@ import supabase from '../db/database';
 export default function Atualizar({route,navigation}) {
     const [ocorrencia, setOcorrencia] = useState('');
     const [resultado, setResultado] = useState('');
+    const [atualizar, setAtualizar] = useState(false);
     const {id_ocorrencia} = route.params;
     useEffect(()=>{
         async function read_data() {
+            setAtualizar(true);
             let { data: ocorrencia, error } = await supabase
             .from('ocorrencias')
             .select('descricao')
@@ -18,6 +20,7 @@ export default function Atualizar({route,navigation}) {
             }
             else
                 setOcorrencia(ocorrencia[0].descricao);
+            setAtualizar(false);
         }
         read_data();
     },[]);
@@ -32,6 +35,7 @@ export default function Atualizar({route,navigation}) {
             <Button mode="contained"
                 onPress={
                     async()=>{
+                        setAtualizar(true);
                         let {error} = await supabase
                         .from('ocorrencias')
                         .update({descricao: ocorrencia})
@@ -42,10 +46,12 @@ export default function Atualizar({route,navigation}) {
                         }
                         else {
                             setResultado('Atualizado com sucesso');
-                            navigation.navigate('Principal');
+                            navigation.navigate('Principal',{ocorrencia:ocorrencia});
                         }
+                        setAtualizar(false);
                 }
             }
+            loading={atualizar}
             >Atualizar
             </Button>
             <Text>{resultado}</Text>

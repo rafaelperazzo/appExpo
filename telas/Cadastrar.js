@@ -25,7 +25,7 @@ export default function Cadastrar({route,navigation}) {
                     }
                     else {
                         setResultado('Cadastrado com sucesso');
-                        navigation.navigate('Principal');
+                        navigation.navigate('Principal',{ocorrencia:ocorrencia});
                     }
                 }}
             >Cadastrar

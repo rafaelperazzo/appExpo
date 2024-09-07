@@ -1,12 +1,15 @@
 import {useState,useEffect} from 'react';
-import {ScrollView} from 'react-native';
+import {ScrollView,Alert} from 'react-native';
 import {Button, DataTable, Text} from 'react-native-paper';
 import supabase from '../db/database';
+import AsyncAlert from '../componentes/Alerta';
 
 export default function Principal({route,navigation}) {
     const [dados,setDados] = useState([]);
+    const [atualizar,setAtualizar] = useState(false);
     useEffect(()=>{
         async function read_data() {
+            setAtualizar(true);
             let { data: ocorrencias, error } = await supabase
             .from('ocorrencias')
             .select('*').order('id');
@@ -15,10 +18,11 @@ export default function Principal({route,navigation}) {
             }
             else
                 setDados(ocorrencias);
+            setAtualizar(false);
             
         }
         read_data();
-    },[]);
+    },[route.params?.ocorrencia]);
     
     return(
         <ScrollView>
@@ -27,9 +31,12 @@ export default function Principal({route,navigation}) {
                 onPress={()=>{
                     navigation.navigate('Cadastrar');
                 }}
+                loading={atualizar}
+
             >Cadastrar</Button>
-            <Button mode="contained"
+            <Button mode="elevated"
                 onPress={async()=>{
+                    setAtualizar(true);
                     let { data: ocorrencias, error } = await supabase
                     .from('ocorrencias')
                     .select('*').order('id');
@@ -38,7 +45,9 @@ export default function Principal({route,navigation}) {
                     }
                     else
                         setDados(ocorrencias);
+                    setAtualizar(false);
                 }}
+                loading={atualizar}
             >Atualizar</Button>
             <DataTable>
                 <DataTable.Header>
@@ -57,6 +66,10 @@ export default function Principal({route,navigation}) {
                         <DataTable.Cell>
                             <Button mode="contained"
                                 onPress={async()=>{
+                                    const confirma = await AsyncAlert('CONFIRMAÇÃO','Deseja realmente remover a ocorrência ?');
+                                    if(!confirma)
+                                        return;
+                                    setAtualizar(true);
                                     let {error} = await supabase
                                     .from('ocorrencias')
                                     .delete()
@@ -74,6 +87,7 @@ export default function Principal({route,navigation}) {
                                         else
                                             setDados(ocorrencias);
                                     }
+                                    setAtualizar(false);
                                 }}
                             >Remover</Button>
                         </DataTable.Cell>
