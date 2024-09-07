@@ -3,6 +3,7 @@ import {ScrollView,Alert} from 'react-native';
 import {Button, DataTable, Text} from 'react-native-paper';
 import supabase from '../db/database';
 import AsyncAlert from '../componentes/Alerta';
+import { save,getValueFor } from '../storage/Storage';
 
 export default function Principal({route,navigation}) {
     const [dados,setDados] = useState([]);
@@ -19,8 +20,8 @@ export default function Principal({route,navigation}) {
             else
                 setDados(ocorrencias);
             setAtualizar(false);
-            
         }
+        console.log(supabase);
         read_data();
     },[route.params?.ocorrencia]);
     

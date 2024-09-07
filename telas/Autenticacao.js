@@ -2,6 +2,7 @@ import {useState} from 'react';
 import {View} from 'react-native';
 import {Text, TextInput, Button} from 'react-native-paper';
 import supabase from '../db/database';
+import { save,getValueFor } from '../storage/Storage';
 
 export default function Autenticacao({route,navigation}) {
     const [email, setEmail] = useState('');
@@ -36,6 +37,8 @@ export default function Autenticacao({route,navigation}) {
                             setResultado('Erro ao autenticar');
                         }
                         else {
+                            await save('usuario',email);
+                            await save('autenticado','1');
                             navigation.navigate('Principal');
                         }
                         setAtualizar(false);
