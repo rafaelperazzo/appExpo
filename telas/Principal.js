@@ -21,7 +21,6 @@ export default function Principal({route,navigation}) {
                 setDados(ocorrencias);
             setAtualizar(false);
         }
-        console.log(supabase);
         read_data();
     },[route.params?.ocorrencia]);
     
